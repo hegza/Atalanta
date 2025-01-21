@@ -1,0 +1,3 @@
+[submodule "examples/rtic"]
+	path = examples/rtic
+	url = ssh://git@github.com/hegza/rtic.git
