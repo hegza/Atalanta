@@ -1,0 +1,27 @@
+[package]
+name = "rt_minimal"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# !!!: Dependencies not allowed for Rust minimal
+
+[features]
+# Use this feature when using cosimulators such as QuestaSim
+rtl-tb = []
+# Use this feature when deploying on FPGA
+fpga = []
+
+default = ["fpga"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+debug = true
+
+[dependencies]
+panic-halt = "1.0.0"
+riscv-rt = { git = "https://github.com/rust-embedded/riscv", branch = "rv32e-compat-asm", version = "0.13.0", features = ["single-hart", "v-trap"] }
