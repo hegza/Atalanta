@@ -1,0 +1,47 @@
+[package]
+name = "rtic_tests"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[workspace]
+
+[dependencies]
+rtic = { path = "../rtic/rtic/", features = [
+    "riscv-atalanta-backend",
+    "test-critical-section",
+] }
+bsp = { package = "rt_ss_bsp", path = "../rt_ss_bsp", features = [
+    "rt",
+    "panic",
+    "clic-smclic",
+    "clic-smclicshv",
+] }
+ufmt = "0.2.0"
+ufmt-write = "0.1.0"
+
+[profile.dev]
+# There seems to be a problem in riscv-rt with regards to linking in default_start_trap in debug
+# mode. `codegen-units = 1` avoids that
+codegen-units = 1
+opt-level = "s"
+panic = "abort"
+
+[profile.release]
+debug = true
+opt-level = "s"
+panic = "abort"
+codegen-units = 1
+
+[profile.'bloat']
+inherits = "release"
+strip = false
+panic = "abort"
+
+[features]
+test-critical-section = []
+fpga = ["bsp/fpga"]
+rtl-tb = ["bsp/rtl-tb"]
+
+[[example]]
+name = "sw_and_hw"

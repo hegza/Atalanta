@@ -1,0 +1,38 @@
+[target.riscv32emc-unknown-none-elf]
+# Real hardware
+runner = "riscv32-unknown-elf-gdb -q -x ../../fpga/utils/connect-and-load.gdb"
+
+[target.riscv32em-unknown-none-elf]
+# Real hardware
+runner = "riscv32-unknown-elf-gdb -q -x ../../fpga/utils/connect-and-load.gdb"
+
+[target.riscv32imc-unknown-none-elf]
+runner = "riscv32-unknown-elf-gdb -q -x ../../fpga/utils/connect-and-load.gdb"
+
+[target.riscv32im-unknown-none-elf]
+runner = "riscv32-unknown-elf-gdb -q -x ../../fpga/utils/connect-and-load.gdb"
+
+# QEMU emulator
+#runner = "./runner.sh"
+
+[build]
+rustflags = [
+  "-C",
+  "linker=riscv32-unknown-elf-gcc",
+  "-C",
+  "link-arg=-Wl,-Tmemory.x",
+  "-C",
+  "link-arg=-Wl,-Tlink.x",
+  "-C",
+  "link-arg=-nostartfiles",
+  # Required to obtain backtraces (e.g. when using the "esp-backtrace" crate.)
+  # NOTE: May negatively impact performance of produced code
+  #"-C",
+  #"force-frame-pointers",
+  #"-Zmacro-backtrace",
+]
+
+target = "riscv32emc-unknown-none-elf"
+
+[unstable]
+build-std = ["core"]
