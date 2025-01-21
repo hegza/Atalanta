@@ -1,0 +1,11 @@
+build:
+    cargo build --release --example sw_and_hw -Ffpga
+
+run:
+    cargo run --release --example sw_and_hw -Ffpga
+
+bloat:
+    cargo bloat --release --example sw_and_hw -Ffpga
+
+expand:
+    cargo expand --example sw_and_hw -Ffpga | bat -lrust
