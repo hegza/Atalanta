@@ -1,19 +1,12 @@
 #![no_main]
 #![no_std]
 
-use bsp::{rt::pre_init, uart::init_uart};
-
-#[pre_init]
-unsafe fn pre_init() {
-    init_uart(bsp::CPU_FREQ, 9600);
-}
-
 static mut LO_DONE: usize = 0;
 static mut HI_DONE: usize = 0;
 
 #[rtic::app(device = bsp, dispatchers = [])]
 mod app {
-    use bsp::{interrupt::Interrupt, sprintln};
+    use bsp::{sprintln, uart::ApbUart, Interrupt};
     use core::arch::asm;
 
     #[shared]
@@ -42,7 +35,7 @@ mod app {
         sprintln!("idle");
         loop {
             if unsafe { crate::HI_DONE != 0 } && unsafe { crate::LO_DONE != 0 } {
-                bsp::tb::signal_pass(true);
+                bsp::tb::signal_pass(Some(unsafe { &mut ApbUart::instance() }));
             }
             for _ in 0..5000000 {
                 // burn cycles
@@ -55,7 +48,7 @@ mod app {
                     unsafe { crate::LO_DONE },
                     unsafe { crate::HI_DONE }
                 );
-                bsp::tb::signal_fail(true);
+                bsp::tb::signal_fail(Some(unsafe { &mut ApbUart::instance() }));
             }
         }
     }
