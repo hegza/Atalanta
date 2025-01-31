@@ -11,7 +11,7 @@ rtic = { path = "../rtic/rtic/", features = [
     "riscv-atalanta-backend",
     "test-critical-section",
 ] }
-bsp = { package = "rt_ss_bsp", path = "../rt_ss_bsp", features = [
+bsp = { package = "atalanta_bsp", path = "../atalanta_bsp", features = [
     "rt",
     "panic",
     "clic-smclic",
