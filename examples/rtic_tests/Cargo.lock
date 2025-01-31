@@ -3,10 +3,43 @@
 version = 4
 
 [[package]]
+name = "atalanta_bsp"
+version = "0.1.0"
+dependencies = [
+ "atalanta_bsp_macros",
+ "bitmask-enum",
+ "embedded-io",
+ "fugit",
+ "riscv 0.11.1 (git+https://github.com/hegza/riscv?branch=feat%2Frt-ibex)",
+ "riscv-pac",
+ "riscv-peripheral",
+ "riscv-rt",
+]
+
+[[package]]
+name = "atalanta_bsp_macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
 name = "bare-metal"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8fe8f5a8a398345e52358e18ff07cc17a568fbca5c6f73873d3a62056309603"
+
+[[package]]
+name = "bitmask-enum"
+version = "2.2.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e6cbbb8f56245b5a479b30a62cdc86d26e2f35c2b9f594bc4671654b03851380"
+dependencies = [
+ "quote",
+ "syn 2.0.66",
+]
 
 [[package]]
 name = "critical-section"
@@ -21,10 +54,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
 
 [[package]]
+name = "embedded-io"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "edd0f118536f44f5ccd48bcb8b111bdc3de888b58c74639dfb034a357d0f206d"
+
+[[package]]
 name = "equivalent"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5443807d6dff69373d433ab9ef5378ad8df50ca6298caf15de6e52e24aaf54d5"
+
+[[package]]
+name = "fugit"
+version = "0.3.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17186ad64927d5ac8f02c1e77ccefa08ccd9eaa314d5a4772278aa204a22f7e7"
+dependencies = [
+ "gcd",
+]
+
+[[package]]
+name = "gcd"
+version = "2.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d758ba1b47b00caf47f24925c0074ecb20d6dfcffe7f6d53395c0465674841a"
 
 [[package]]
 name = "hashbrown"
@@ -145,34 +199,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "rt_ss_bsp"
-version = "0.1.0"
-dependencies = [
- "riscv 0.11.1 (git+https://github.com/hegza/riscv?branch=feat%2Frt-ibex)",
- "riscv-pac",
- "riscv-peripheral",
- "riscv-rt",
- "rt_ss_bsp_macros",
-]
-
-[[package]]
-name = "rt_ss_bsp_macros"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
 name = "rtic"
 version = "2.1.1"
 dependencies = [
+ "atalanta_bsp",
  "bare-metal",
  "critical-section",
  "portable-atomic",
  "riscv 0.11.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "rt_ss_bsp",
  "rtic-core",
  "rtic-macros",
 ]
@@ -198,7 +232,7 @@ dependencies = [
 name = "rtic_tests"
 version = "0.1.0"
 dependencies = [
- "rt_ss_bsp",
+ "atalanta_bsp",
  "rtic",
  "ufmt",
  "ufmt-write",
